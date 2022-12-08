@@ -1,0 +1,26 @@
+version: '3.7'
+
+volumes:
+  ${NAMEPEER}.${ORG}:
+
+networks:
+  test:
+    name: fabric_test
+
+services:
+  ${NAMEPEER}.${ORG}:
+    container_name: ${NAMEPEER}.${ORG}
+    image: hyperledger/fabric-peer:latest
+    labels:
+      service: hyperledger-fabric
+    environment:
+      - FABRIC_CFG_PATH=FILE/organizations/${ORG}/peers/${NAMEPEER}
+    volumes:
+        - FILE/organizations/${ORG}/peers/${NAMEPEER}:FILE/organizations/${ORG}/peers/${NAMEPEER}
+    working_dir: /root
+    command: peer node start
+    ports:
+      - ${PORT}:${PORT}
+      - ${CHAINCODE_PORT}:${CHAINCODE_PORT}
+    networks:
+      - test
