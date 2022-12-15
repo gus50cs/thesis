@@ -1,0 +1,27 @@
+version: '3.7'
+
+volumes:
+  ${NAME}.${ORG}:
+
+networks:
+  test:
+    name: fabric_test
+
+services:
+  ${NAME}.${ORG}:
+    container_name: ${NAME}.${ORG}
+    image: hyperledger/fabric-orderer:latest
+    labels:
+      service: hyperledger-fabric
+    environment:
+      - FABRIC_CFG_PATH=FILE/organizations/${ORG}-orderer/orderers/${NAME}
+    volumes:
+      - FILE/organizations/${ORG}-orderer/orderers/${NAME}:FILE/organizations/${ORG}-orderer/orderers/${NAME}
+    working_dir: /root
+    command: orderer
+    ports:
+      - ${PORT}:${PORT}
+      - ${ADMIN_PORT}:${ADMIN_PORT}
+      - ${OPERADDRESS}:${OPERADDRESS}
+    networks:
+      - test

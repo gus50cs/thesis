@@ -1,0 +1,27 @@
+version: '3.7'
+
+networks:
+  test:
+    name: fabric_test
+
+
+services:
+  cli:
+    container_name: cli
+    image: hyperledger/fabric-tools:latest
+    labels:
+      service: hyperledger-fabric
+    tty: true
+    stdin_open: true
+    environment:
+      - GOPATH=/opt/gopath
+      - FABRIC_LOGGING_SPEC=INFO
+      - FABRIC_CFG_PATH=/home/kevin/project/organizations/org1
+      #- FABRIC_LOGGING_SPEC=DEBUG
+    working_dir: /home/kevin/projec
+    command: /bin/bash
+    volumes:
+        - /home/kevin/project/organizations:/home/kevin/project/organizations
+        - /home/kevin/project:/home/kevin/project
+    networks:
+      - test

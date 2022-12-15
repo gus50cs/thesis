@@ -1,0 +1,23 @@
+version: '3.7'
+
+
+networks:
+  test:
+    name: ${NAME}
+
+services:
+  ${NAME}:
+    container_name: ${NAME}
+    image: hyperledger/fabric-ca:latest
+    labels:
+      service: hyperledger-fabric
+    command: sh -c 'fabric-ca-server start -b ${USERNAME}:${PASSWORD}'
+    environment:
+      - FABRIC_CA_SERVER_HOME=/home/kevin/project/servers/${NAME}
+    volumes:
+      - /home/kevin/project/servers/${NAME}:/home/kevin/project/servers/${NAME}
+    networks:
+      - test
+    ports:
+      - ${PORT}:${PORT}
+      - ${LISTENINGPORT}:${LISTENINGPORT}
