@@ -15,6 +15,7 @@ services:
       service: hyperledger-fabric
     environment:
       - FABRIC_CFG_PATH=FILE/organizations/${ORG}/peers/${NAMEPEER}
+      - CHAINCODE_AS_A_SERVICE_BUILDER_CONFIG={"peername":"${NAMEPEER}"}
     volumes:
         - FILE/organizations/${ORG}/peers/${NAMEPEER}:FILE/organizations/${ORG}/peers/${NAMEPEER}
     working_dir: /root

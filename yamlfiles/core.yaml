@@ -313,7 +313,7 @@ peer:
     # Path on the file system where peer will store data (eg ledger). This
     # location must be access control protected to prevent unintended
     # modification that might corrupt the peer operations.
-    fileSystemPath: LEDGER
+    fileSystemPath: /var/hyperledger/production
 
     # BCCSP (Blockchain crypto provider): Select which crypto implementation or
     # library to use
@@ -508,7 +508,7 @@ vm:
     # https://localhost:2376
     # If you utilize external chaincode builders and don't need the default Docker chaincode builder,
     # the endpoint should be unconfigured so that the peer's Docker health checker doesn't get registered.
-    endpoint: unix:///var/run/docker.sock
+    endpoint: unix:///host/var/run/docker.sock
 
     # settings for docker vms
     docker:
@@ -537,7 +537,7 @@ vm:
         # https://docs.docker.com/engine/admin/logging/overview/
         # Note: Set LogConfig using Environment Variables is not supported.
         hostConfig:
-            NetworkMode: host
+            NetworkMode: fabric_test
             Dns:
                # - 192.168.0.1
             LogConfig:
@@ -616,7 +616,7 @@ chaincode:
     # build the image, which might take more time. In production environment,
     # the chaincode image is unlikely to be deleted, so the timeout could be
     # reduced accordingly.
-    executetimeout: 30s
+    executetimeout: 300s
 
     # There are 2 modes: "dev" and "net".
     # In dev mode, user runs the chaincode after starting peer from

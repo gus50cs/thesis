@@ -7,10 +7,14 @@ FILE=/home/kevin/project
 ORG=$2
 declare -i PORT=$1+10
 
-
+SOCK="${DOCKER_HOST:-/var/run/docker.sock}"
+DOCKER_SOCK="${SOCK##unix://}"
+: ${CONTAINER_CLI:="docker"}
+: ${CONTAINER_CLI_COMPOSE:="${CONTAINER_CLI}-compose"}
 input="/home/kevin/project/peers-${ORG,,}.txt"
 peers=$(awk '{print $2}' $input)
 declare -i y=1
+docker-compose -f $FILE/yamlfiles/cli.yaml up -d 2>&1
 for i in $peers
 do
     IFS=
@@ -27,7 +31,8 @@ do
     MSPID=${ORG}MSP
     config_core $PORT $NAMEPEER $ORG $CHAINCODE_PORT $ADDRESSES $LEADER $FILE $LEDGER $MSPATH $MSPID $OPERADDRESS
     config_peer ${PORT} ${ORG} ${NAMEPEER} ${FILE} ${CHAINCODE_PORT} 
-    docker-compose -f $FILE/organizations/${ORG,,}/peers/$NAMEPEER/peer.yaml up -d 2>&1
+    config_vm_peer ${ORG} ${NAMEPEER} ${DOCKER_SOCK} $FILE
+    DOCKER_SOCK="${DOCKER_SOCK}" ${CONTAINER_CLI_COMPOSE} -f $FILE/organizations/${ORG,,}/peers/$NAMEPEER/peer.yaml -f $FILE/organizations/${ORG,,}/peers/${NAMEPEER}/vm-peer.yaml up -d 2>&1  
     y=$y+1
 done 
 
@@ -50,7 +55,6 @@ do
     LEDGER=$FILE/organizations/${ORG,,}-orderer/orderers/$NAME/LEDGER
     MSPATH=$FILE/organizations/${ORG,,}-orderer/orderers/$NAME/msp
     MSPID=${ORG}ordererMSP
-    echo "${PORT} ${NAME} ${ORG} ${FILE} $LEDGER $MSPATH $MSPID ${OPERADDRESS} ${ADMIN_PORT}"
     config_orderer ${PORT} ${NAME} ${ORG} ${FILE} $LEDGER $MSPATH $MSPID ${OPERADDRESS} ${ADMIN_PORT}
     config_orderer_docker ${PORT} ${ORG} ${NAME} ${ADMIN_PORT} ${OPERADDRESS} $FILE
     docker-compose -f $FILE/organizations/${ORG,,}-orderer/orderers/$NAME/orderer-docker.yaml up -d 2>&1

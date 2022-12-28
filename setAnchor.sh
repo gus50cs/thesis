@@ -6,29 +6,26 @@
 #
 
 # import utils
-. scripts/envVar.sh
-. scripts/configUpdate.sh
+ORG=$1
+CHANNEL_NAME=$2
+PEER=$3
+ORD=$4
+PORT=$5
+ORD_PORT=$6
+
+. /home/kevin/project/envar.sh $ORG
+. /home/kevin/project/configUpdate.sh $ORG
 
 
 # NOTE: this must be run in a CLI container since it requires jq and configtxlator 
 createAnchorPeerUpdate() {
-  infoln "Fetching channel config for channel $CHANNEL_NAME"
-  fetchChannelConfig $ORG $CHANNEL_NAME ${CORE_PEER_LOCALMSPID}config.json
+  echo "Fetching channel config for channel $CHANNEL_NAME"
+  fetchChannelConfig $ORG $CHANNEL_NAME ${CORE_PEER_LOCALMSPID}config.json $ORD $PORT $ORD_PORT
 
-  infoln "Generating anchor peer update transaction for Org${ORG} on channel $CHANNEL_NAME"
+  echo "Generating anchor peer update transaction for Org${ORG} on channel $CHANNEL_NAME"
 
-  if [ $ORG -eq 1 ]; then
-    HOST="peer0.org1.example.com"
-    PORT=7051
-  elif [ $ORG -eq 2 ]; then
-    HOST="peer0.org2.example.com"
-    PORT=9051
-  elif [ $ORG -eq 3 ]; then
-    HOST="peer0.org3.example.com"
-    PORT=11051
-  else
-    errorln "Org${ORG} unknown"
-  fi
+  HOST="${PEER}.${ORG}"
+  PORT=${PORT}
 
   set -x
   # Modify the configuration to append the anchor peer 
@@ -42,17 +39,15 @@ createAnchorPeerUpdate() {
 }
 
 updateAnchorPeer() {
-  peer channel update -o orderer.example.com:7050 --ordererTLSHostnameOverride orderer.example.com -c $CHANNEL_NAME -f ${CORE_PEER_LOCALMSPID}anchors.tx --tls --cafile "$ORDERER_CA" >&log.txt
+  peer channel update -o ${ORD}.${ORG}:${ORD_PORT} --ordererTLSHostnameOverride ${ORD}.${ORG} -c $CHANNEL_NAME -f ${CORE_PEER_LOCALMSPID}anchors.tx --tls --cafile "$ORDERER_CA" >&log.txt
   res=$?
   cat log.txt
-  verifyResult $res "Anchor peer update failed"
-  successln "Anchor peer set for org '$CORE_PEER_LOCALMSPID' on channel '$CHANNEL_NAME'"
+  #verifyResult $res "Anchor peer update failed"
+  echo "Anchor peer set for org '$CORE_PEER_LOCALMSPID' on channel '$CHANNEL_NAME'"
 }
 
-ORG=$1
-CHANNEL_NAME=$2
 
-setGlobalsCLI $ORG
+setGlobalsCLI $PORT $PEER
 
 createAnchorPeerUpdate 
 

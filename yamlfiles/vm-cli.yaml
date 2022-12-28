@@ -1,0 +1,14 @@
+version: '3.7'
+
+volumes:
+  ${NAMEPEER}.${ORG}:
+
+networks:
+  test:
+    name: fabric_test
+
+  cli:
+    container_name: cli
+    image: hyperledger/fabric-tools:latest
+    volumes:
+      - /home/kevin/project/organizations/org1/peers/qa:/home/kevin/project/organizations/org1/peers/qa

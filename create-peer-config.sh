@@ -35,6 +35,13 @@ function yaml_peer {
         $WORKING_DIR/yamlfiles/peer.yaml | sed -e $'s/\\\\n/\\\n          /g'
 }
 
+function yaml_vm {
+    sed -e "s/\${ORG}/$1/g" \
+        -e "s/\${NAMEPEER}/$2/g" \
+        -e "s|FILE|$3|g" \
+        $WORKING_DIR/yamlfiles/vm-peer.yaml | sed -e $'s/\\\\n/\\\n          /g'
+}
+
 
 function config_couch() {    
         > ${WORKING_DIR}/organizations/${ORG,,}/peers/${NAMEPEER}/couch.yaml
@@ -49,4 +56,9 @@ function config_core() {
 function config_peer() {    
         > ${WORKING_DIR}/organizations/${ORG,,}/peers/${NAMEPEER}/peer.yaml
         echo "$(yaml_peer ${PORT} ${ORG} ${NAMEPEER} ${FILE} ${CHAINCODE_PORT} )" > ${WORKING_DIR}/organizations/${ORG,,}/peers/${NAMEPEER}/peer.yaml
+}
+
+function config_vm_peer() {    
+        > ${WORKING_DIR}/organizations/${ORG,,}/peers/${NAMEPEER}/vm-peer.yaml
+        echo "$(yaml_vm ${ORG} ${NAMEPEER} ${FILE} )" > ${WORKING_DIR}/organizations/${ORG,,}/peers/${NAMEPEER}/vm-peer.yaml
 }
