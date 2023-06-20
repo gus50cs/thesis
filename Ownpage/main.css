@@ -1,0 +1,326 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box
+}
+
+body,html {
+    height: 100%;
+    font-family: sans-serif
+}
+
+header {
+    background-color: white;
+    padding: 38px;
+    text-align: center;
+    margin: 0;
+}
+
+.tab-button {
+    display: inline-block;
+    padding: 10px 20px;
+    background: none;
+    border: none;
+    color: black;
+    font-size: 16px;
+    font-family: 'Open Sans',sans-serif; 
+    text-decoration: none;
+    cursor: pointer;
+    margin-right: 20px; /* Added margin-right to increase the gap */
+}
+
+
+header a.tab-button:hover {
+    color: #cc0000 !important;
+}
+
+.logout-button {
+    display: inline-block;
+    padding: 10px 20px;
+    background: none;
+    border: none;
+    color: black;
+    font-size: 16px;
+    font-family: 'Open Sans',sans-serif; 
+    text-decoration: none;
+    cursor: pointer;
+    position: absolute;
+    top: 35px;
+    right: 10px;
+}
+
+.logout-button:hover {
+    color: #cc0000;
+}
+
+.download-btn {
+    color: blue;
+    border: none;
+    padding: 5px 10px;
+    transition: background-color 0.3s;
+}
+
+.download-btn:hover {
+    color: lightblue;
+    cursor: pointer;
+}
+
+a {
+    margin: 0;
+    transition: all .4s;
+    -webkit-transition: all .4s;
+    -o-transition: all .4s;
+    -moz-transition: all .4s
+}
+
+a:focus {
+    outline: none!important
+}
+
+a:hover {
+    text-decoration: none
+}
+
+h1,h2,h3,h4,h5,h6 {
+    margin: 0
+}
+
+p {
+    margin: 0
+}
+
+ul,li {
+    margin: 0;
+    list-style-type: none
+}
+
+input {
+    display: block;
+    outline: none;
+    border: none!important
+}
+
+textarea {
+    display: block;
+    outline: none
+}
+
+textarea:focus,input:focus {
+    border-color: transparent!important
+}
+
+button {
+    outline: none!important;
+    border: none;
+    background: 0 0
+}
+
+button:hover {
+    cursor: pointer
+}
+
+iframe {
+    border: none!important
+}
+
+.limiter {
+    width: 100%;
+    margin: 0 auto
+}
+
+.container {
+    width: 100%;
+    margin: 0 auto;
+    padding: 0 15px; /* Add horizontal padding to the container */
+    box-sizing: border-box;
+  }
+
+
+  .container-table100 {
+    min-height: calc(100vh - 76px); /* Subtract the header height from the viewport height */
+    background: #c850c0;
+    background: -webkit-linear-gradient(45deg, #4158d0, #c850c0);
+    background: -o-linear-gradient(45deg, #4158d0, #c850c0);
+    background: -moz-linear-gradient(45deg, #4158d0, #c850c0);
+    background: linear-gradient(45deg, #4158d0, #c850c0);
+    display: flex;
+    align-items: center; /* Adjusted align-items to center */
+    justify-content: center; /* Adjusted justify-content to center */
+    flex-wrap: wrap;
+    padding: 0;
+    margin-top: 10px; /* Adjusted margin-top value */
+}
+
+
+.wrap-table100 {
+    width: 90%; /* Adjusted width to 90% */
+    margin: 0 auto;
+    padding-left: 5%;
+    padding-right: 5%;
+    box-sizing: border-box;
+}
+
+  table {
+    /* Remove the width property */
+    padding-left: 30px;
+    border-spacing: 1;
+    border-collapse: collapse;
+    background: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    margin: 0 auto;
+    position: relative;
+  }
+
+table * {
+    position: relative
+}
+
+table td,table th {
+    padding-left: 8px
+}
+
+table thead tr {
+    height: 60px;
+    background: #36304a
+}
+
+table tbody tr {
+    height: 50px
+}
+
+table tbody tr:last-child {
+    border: 0
+}
+
+table td,table th {
+    text-align: left
+}
+
+table td.l,table th.l {
+    text-align: right
+}
+
+table td.c,table th.c {
+    text-align: center
+}
+
+table td.r,table th.r {
+    text-align: center
+}
+
+.table100-head th {
+    font-family: OpenSans-Regular;
+    font-size: 18px;
+    color: #fff;
+    line-height: 1.2;
+    font-weight: unset
+}
+
+tbody tr:nth-child(even) {
+    background-color: #f5f5f5
+}
+
+tbody tr {
+    font-family: OpenSans-Regular;
+    font-size: 15px;
+    color: gray;
+    line-height: 1.2;
+    font-weight: unset
+}
+
+tbody tr:hover {
+    color: #555;
+    background-color: #f5f5f5;
+    cursor: pointer
+}
+
+.column1 {
+    width: 260px;
+    padding-left: 40px
+}
+
+.column2 {
+    width: 160px
+}
+
+.column3 {
+    width: 245px
+}
+
+.column4 {
+    width: 110px;
+    text-align: right
+}
+
+.column5 {
+    width: 170px;
+    text-align: right
+}
+
+.column6 {
+    width: 222px;
+    text-align: right;
+    padding-right: 62px
+}
+
+.column7 {
+    width: 222px;
+    text-align: right;
+    padding-right: 62px
+}
+
+.column8 {
+    width: 222px;
+    text-align: right;
+    padding-right: 62px
+}
+
+.column9 {
+    width: 222px;
+    text-align: right;
+    padding-right: 62px
+}
+
+
+
+
+@media screen and (max-width: 576px) {
+    .container-table100 {
+      padding-left: 15px;
+      padding-right: 15px;
+    }
+  
+    table thead {
+      display: none;
+    }
+  
+    table tbody tr {
+      padding: 10px 0;
+    }
+  
+    table tbody tr td {
+      padding-left: 20px;
+    }
+  
+    table tbody tr td:before {
+      font-size: 12px;
+    }
+  
+    .column1,
+    .column2,
+    .column3,
+    .column4,
+    .column5,
+    .column6 {
+      width: 100%;
+      text-align: left;
+    }
+  }
+
+@media(max-width: 576px) {
+    .container-table100 {
+        padding-left:15px;
+        padding-right: 15px
+    }
+}

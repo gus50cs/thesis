@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="/static/Uploadpage/upload.js"></script>
+  <link rel="stylesheet" href="static/Uploadpage/upload.css">
+  <style>
+    .dropdown-list {
+      display: none;
+      position: absolute;
+      background-color: #fff;
+      border: 1px solid #ccc;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      max-height: 150px;
+      overflow-y: auto;
+      list-style-type: none;
+      margin: 0;
+      padding: 0;
+      width: 20%;
+      z-index: 1;
+    }
+
+    .dropdown-option {
+      padding: 10px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .dropdown-option:hover {
+      background-color: #f1f1f1;
+    }
+  </style>
+</head>
+<title>Simple Form</title>
+<body>
+  <header>
+    <a class="home-button" onclick="goToHome()">HOME</a>
+    <a class="home-button" onclick="goToFiles()">CHECK FILES</a>
+    <a class="home-button" onclick="goToOwn()">OWN FILES</a>
+    <a class="logout-button" href="/logout">LOGOUT</a>
+  </header>
+
+  <div class="form-box">
+    <form class="upload">
+      <label for="documentID" class="form__label">DocumentID</label>
+      <input type="text" id="documentID" name="documentID" class="form__field" placeholder="Enter DocumentID" required>
+      <label for="owner" class="form__label">Owner</label>
+      <input type="text" id="owner" name="owner" class="form__field" placeholder="Enter Owner" value="{{.Username}}" readonly required>
+      
+      <label for="accessList" class="form__label">Access List</label>
+      <div class="dropdown">
+        <input type="text" id="accessListInput" class="form__field" placeholder="Select from the list" required>
+        <ul id="accessListDropdown" class="dropdown-list">
+          {{range .Users}}
+          <li class="dropdown-option">{{.}}</li>
+          {{end}}
+        </ul>
+      </div>
+      
+      <div>
+        <label for="file" class="form__label">Upload File:</label>
+        <input type="file" id="file" name="file" class="form__field" required>
+      </div>
+
+      <div>
+        <button type="submit" value="Submit">Upload</button>
+        <div class="message upload-message"></div>
+      </div>
+    </form>
+  </div>
+
+  <script>
+    // Show/hide dropdown list
+    $(document).ready(function() {
+  var dropdownInput = $('#accessListInput');
+  var dropdownList = $('#accessListDropdown');
+  var dropdownOptions = dropdownList.find('li');
+
+  dropdownInput.click(function(e) {
+    e.stopPropagation();
+    dropdownList.slideToggle();
+  });
+
+  dropdownList.on('click', 'li', function() {
+    var selectedOption = $(this).text();
+    var inputValue = dropdownInput.val().trim();
+    var newInputValue;
+
+    if (inputValue !== '') {
+      var matchingText = getMatchingText(inputValue, selectedOption);
+      newInputValue = inputValue.replace(matchingText, selectedOption + ', ');
+    } else {
+      newInputValue = selectedOption;
+    }
+
+    dropdownInput.val(newInputValue);
+    $(this).remove();
+  });
+
+  $(document).click(function() {
+    dropdownList.slideUp();
+  });
+
+  dropdownInput.on('input', function() {
+    var inputValue = $(this).val().trim();
+    dropdownOptions.hide();
+    dropdownOptions.filter(function() {
+      return $(this).text().toLowerCase().indexOf(inputValue.toLowerCase()) === 0;
+    }).show();
+  });
+
+  function getMatchingText(inputValue, selectedOption) {
+    var regex = new RegExp('^' + inputValue, 'i');
+    var match = selectedOption.match(regex);
+    return match ? match[0] : '';
+  }
+});
+  </script>
+</body>
+</html>

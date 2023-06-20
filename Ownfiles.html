@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>Own Files</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/png" href="https://colorlib.com/etc/tb/Table_Responsive_v1/images/icons/favicon.ico">
+  <link rel="stylesheet" type="text/css" href="/static/Ownpage/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="/static/Ownpage/perfect-scrollbar.css">
+  <link rel="stylesheet" type="text/css" href="/static/Ownpage/util.css">
+  <link rel="stylesheet" type="text/css" href="/static/Ownpage/main.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <meta name="robots" content="noindex, follow">
+</head>
+<style>
+  .modal-content {
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  }
+  .modal-header {
+    background-color: #f8f9fa;
+    border-bottom: none;
+  }
+  .modal-title {
+    font-size: 20px;
+    margin: 0;
+  }
+  .modal-body {
+    text-align: center;
+  }
+  .modal-footer {
+    justify-content: center;
+    border-top: none;
+  }
+  .btn-secondary {
+    background-color: #6c757d;
+    color: #ffffff;
+    border: none;
+    border-radius: 5px;
+    padding: 8px 16px;
+    cursor: pointer;
+    margin-right: 8px;
+  }
+  .btn-danger {
+    background-color: #ff0000;
+    color: #ffffff;
+    border: none;
+    border-radius: 5px;
+    padding: 8px 16px;
+    cursor: pointer;
+    margin-right: 8px;
+  }
+  .btn-danger:hover,
+  .btn-danger:focus {
+    background-color: #cc0000;
+  }
+  .modal.fade .modal-dialog {
+    transform: translate(0, 0);
+  }
+
+  /* Popup Styles */
+  .cd-popup {
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    background-color: rgba(94, 110, 141, 0.9);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s 0s, visibility 0s 0.3s;
+  }
+  .cd-popup.is-visible {
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.3s 0s, visibility 0s 0s;
+  }
+  .cd-popup-container {
+position: relative;
+width: 90%;
+max-width: 400px;
+margin: 10% auto; /* Updated margin to center vertically and horizontally */
+background: #FFF;
+border-radius: .25em .25em .4em .4em;
+text-align: center;
+box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+transform: translateY(-40px);
+transition: transform 0.3s;
+-webkit-backface-visibility: hidden;
+backface-visibility: hidden;
+}
+  .cd-popup-container p {
+    padding: 3em 1em;
+  }
+  .cd-popup-container .cd-buttons:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+  .cd-popup-container .cd-buttons li {
+    float: left;
+    width: 50%;
+    list-style: none;
+  }
+  .cd-popup-container .cd-buttons a {
+display: block;
+height: 60px;
+line-height: 60px;
+text-transform: uppercase;
+color: #FFF;
+transition: background-color 0.2s;
+text-decoration: none; /* Remove underline */
+}
+
+  .cd-popup-container .cd-buttons li:first-child a {
+    background: #fc7169;
+    border-radius: 0 0 0 .25em;
+  }
+  .cd-popup-container .cd-buttons li:last-child a {
+    background: #b6bece;
+    border-radius: 0 0 .25em 0;
+  }
+  .cd-popup-close {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 30px;
+    height: 30px;
+  }
+  .cd-popup-close:before, .cd-popup-close:after {
+    content: '';
+    position: absolute;
+    top: 12px;
+    width: 14px;
+    height: 3px;
+    background-color: #8f9cb5;
+  }
+  .cd-popup-close:before {
+    -webkit-transform: rotate(45deg);
+    -moz-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    -o-transform: rotate(45deg);
+    transform: rotate(45deg);
+    left: 8px;
+  }
+  .cd-popup-close:after {
+    -webkit-transform: rotate(-45deg);
+    -moz-transform: rotate(-45deg);
+    -ms-transform: rotate(-45deg);
+    -o-transform: rotate(-45deg);
+    transform: rotate(-45deg);
+    right: 8px;
+  }
+  .cd-popup-close:hover:before, .cd-popup-close:hover:after {
+    background-color: #c7d0d9;
+  }
+  .cd-popup-close:focus {
+    outline: none;
+  }
+</style>
+<header>
+  <a class="tab-button" onclick="goToHome()">HOME</a>
+  <a class="tab-button" onclick="goToUpload()">UPLOAD FILES</a>
+  <a class="tab-button" onclick="goToFile()">CHECK FILES</a>
+  <a class="logout-button" href="/logout">LOGOUT</a>
+</header>
+<body>
+  <div class="limiter">
+    <div class="container-table100">
+      <div class="wrap-table100">
+        <div class="table100">
+          <table>
+            <thead>
+              <tr class="table100-head">
+                <th class="column1">DocumentID</th>
+                <th class="column2">Owner</th>
+                <th class="column3">Timestamp</th>
+                <th class="column4">AccessList</th>
+                <th class="column5">Download</th>
+                <th class="column6">Edit</th>
+                <th class="column7">Checked</th>
+                <th class="column8">Waiting Check</th>
+                <th class="column9">Delete</th>
+              </tr>
+            </thead>
+            <tbody>
+              {{ range .AssetsOwner }}
+              <tr>
+                <td class="column1">{{ .DocumentID }}</td>
+                <td class="column2">{{ .Owner }}</td>
+                <td class="column3">{{ .Timestamp }}</td>
+                <td class="column4">{{ range $index, $value := .AccessList}}{{if $index}}, {{end}}{{ $value }}{{end}}</td>
+                <td class="cell100 column5">
+                  <button class="download-btn" onclick="window.location.href='/download/{{ .DocumentCID }}'">Download</button>
+                </td>
+                <td class="column6">
+                  <button class="edit-btn btn btn-primary">Edit</button> <!-- Edit button -->
+                  <button class="save-btn btn btn-success d-none">Save</button> <!-- Save button initially hidden -->
+                  <button class="cancel-btn btn btn-secondary d-none">Cancel</button> <!-- Cancel button initially hidden -->
+                </td>
+                <td class="column7">{{ range $index, $value := .CheckList}}{{if $index}}, {{end}}{{ $value }}{{end}}</td>
+                <td class="column8">{{ range $index, $value := .WaitingList}}{{if $index}}, {{end}}{{ $value }}{{end}}</td>
+                <td class="column9">
+                  <button class="delete-button" onclick="confirmDelete()">
+                    <i class="fas fa-trash-alt"></i>
+                  </button>
+                </td>
+              </tr>
+              {{ end }}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script>
+    $(document).ready(function() {
+      $('.edit-btn').on('click', function() {
+        var listItem = $(this).closest('tr');
+        var accessListSpan = listItem.find('.column4');
+        var accessListInput = $('<input class="edit-access-list-input" type="text">');
+        accessListInput.val(accessListSpan.text().trim());
+        accessListSpan.html(accessListInput);
+        $(this).hide();
+        listItem.find('.save-btn, .cancel-btn').removeClass('d-none');
+      });
+
+      $('.save-btn').on('click', function() {
+        var listItem = $(this).closest('tr');
+        var accessListSpan = listItem.find('.column4');
+        var accessListInput = listItem.find('.edit-access-list-input');
+        var newAccessList = accessListInput.val().trim();
+        accessListSpan.text(newAccessList);
+        accessListInput.remove();
+        listItem.find('.edit-btn').show();
+        $(this).addClass('d-none');
+        listItem.find('.cancel-btn').addClass('d-none');
+
+        // Extract other data attributes from the row
+        var documentID = listItem.find('.column1').text().trim();
+        var ownerID = listItem.find('.column2').text().trim();
+        
+        // Perform the AJAX POST request
+        $.ajax({
+          url: '/update-access',
+          type: 'POST',
+          data: {
+            documentID: documentID,
+            ownerID: ownerID,
+            accessList: newAccessList
+          },
+          success: function(response) {
+            console.log(response); // Log the success response
+            // Handle success response if needed
+          },
+          error: function(xhr, status, error) {
+            alert('Error updating access list: ' + error);
+            // Handle error response if needed
+          }
+        });
+      });
+
+      $('.cancel-btn').on('click', function() {
+        var listItem = $(this).closest('tr');
+        var accessListSpan = listItem.find('.column4');
+        var accessListInput = listItem.find('.edit-access-list-input');
+        accessListInput.val(accessListSpan.text().trim());
+        accessListInput.remove();
+        listItem.find('.edit-btn').show();
+        listItem.find('.save-btn, .cancel-btn').addClass('d-none');
+      });
+    });
+  </script>
+<script >
+function goToHome() {
+    window.location.href = "/";
+}
+
+function goToFile() {
+    window.location.href = "/saveCheckedFile";
+}
+
+function goToUpload() {
+  window.location.href = "/upload";
+}
+</script>
+<script>
+  function confirmDelete() {
+  var listItem = $(event.target).closest('tr');
+  var popup = document.getElementById("popup");
+  var overlay = document.getElementById("overlay");
+
+  popup.classList.add("is-visible");
+  overlay.style.display = "block";
+
+  // Pass the list item reference to the deleteItem function
+  deleteItem(listItem);
+}
+
+function cancelDelete() {
+  var popup = document.getElementById("popup");
+  var overlay = document.getElementById("overlay");
+
+  popup.classList.remove("is-visible");
+  overlay.style.display = "none";
+}
+
+function deleteItem(listItem) {
+      var documentID = listItem.find('.column1').text().trim();
+      var ownerID = listItem.find('.column2').text().trim();
+
+      // Perform the AJAX POST request
+      $.ajax({
+        url: '/delete',
+        type: 'POST',
+        data: {
+          documentID: documentID,
+          ownerID: ownerID
+        },
+        success: function(response) {
+          listItem.remove(); // Remove the row from the table
+          var successMessage = document.getElementById("success-message");
+          successMessage.style.display = "block";
+
+          setTimeout(function() {
+            successMessage.style.display = "none";
+            cancelDelete();
+          }, 2000); // Close the popup after 2 seconds
+
+          // Additional actions after successful deletion
+        },
+        error: function(xhr, status, error) {
+          // Handle error response if needed
+          console.log('Error deleting file: ' + error);
+        }
+      });
+    }
+</script>
+
+<div id="overlay" style="display: none;"></div>
+  <div id="popup" class="cd-popup" role="alert">
+    <div class="cd-popup-container">
+      <p>Are you sure you want to delete?</p>
+      <ul class="cd-buttons">
+        <li><a href="#0" class="btn-danger" onclick="deleteItem()">Delete</a></li>
+        <li><a href="#0" class="btn-secondary" onclick="cancelDelete()">Cancel</a></li>
+      </ul>
+      <a href="#0" class="cd-popup-close img-replace" onclick="cancelDelete()"></a>
+    </div>
+</div>
+<div id="success-message" style="display: none;">File deleted successfully!</div>
+
+</body>
+</html>
